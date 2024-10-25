@@ -20,9 +20,6 @@ public interface ProductoService {
     @POST("registrar")
     Call<Producto> crearProducto(@Body Producto producto);
 
-    @PUT("actualizar/{id}")
-    Call<Producto> actualizarProducto(@Path("id") int codigoProd, @Body Producto producto);
-
     @DELETE("eliminar/{id}")
     Call<Void> eliminarProducto(@Path("id") int codigoProd);
 }

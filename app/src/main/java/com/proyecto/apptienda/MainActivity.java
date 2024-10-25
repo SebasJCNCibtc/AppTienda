@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_ELIMINAR = 1;
     private static final int REQUEST_CODE_CREAR = 2; // Puedes usar el valor que prefieras
+    private static final int REQUEST_CODE_EDITAR = 3; // Puedes usar el valor que prefieras
 
 
     Spinner spnProductos;
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             int idProd = spnProductos.getSelectedItemPosition(); // Obtener la posición seleccionada
             Producto objProd = lstSalida.get(idProd); // Obtener el producto usando la posición
 
-            String salida = "Producto: " + "\n\n";
+            String salida = "Producto " + "\n\n";
             salida += "CÓDIGO : " + "  " + objProd.getCodigoProd() + "\n";
             salida += "NOMBRE : " + "  " + objProd.getNombreProd() + "\n";
             salida += "DESCRIPCIÓN : " + "  " + objProd.getDescripcionProd() + "\n\n";
@@ -148,11 +149,12 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("nombreProd", objProd.getNombreProd());
             intent.putExtra("descripcionProd", objProd.getDescripcionProd());
             intent.putExtra("precioProd", objProd.getPrecioProd());
-            startActivity(intent); // Iniciar la actividad de edición
+            startActivityForResult(intent, REQUEST_CODE_EDITAR); // Cambiar a startActivityForResult
         } else {
             Toast.makeText(this, "No hay productos disponibles para editar.", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 
 
@@ -165,10 +167,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_ELIMINAR && resultCode == RESULT_OK) {
-            cargarProductos(); // Método para cargar o actualizar la lista de productos
-        } else if (requestCode == REQUEST_CODE_CREAR && resultCode == RESULT_OK) { // Asegúrate de tener esta línea
-            cargarProductos(); // Carga los productos nuevamente después de crear uno
+            cargarProductos(); // Cargar o actualizar la lista de productos después de eliminar
+        } else if (requestCode == REQUEST_CODE_CREAR && resultCode == RESULT_OK) {
+            cargarProductos(); // Cargar los productos nuevamente después de crear uno
+        } else if (requestCode == REQUEST_CODE_EDITAR && resultCode == RESULT_OK) {
+            cargarProductos(); // Cargar los productos nuevamente después de editar uno
         }
     }
+
 
 }
